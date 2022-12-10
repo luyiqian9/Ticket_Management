@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Ticket_Management:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>false</exploded>
+        <module>Ticket_Management</module>
+        <packaging>war</packaging>
+        <unpackNestedArchives>false</unpackNestedArchives>
+      </options>
+    </properties>
+    <root id="archive" name="Ticket_Management-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="Ticket_Management:war exploded" />
+    </root>
+  </artifact>
+</component>
