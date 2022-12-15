@@ -44,7 +44,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
-                                <router-link class="dropdown-item" :to="{ name: 'loginview' }">我的资料</router-link>
+                                <router-link class="dropdown-item" :to="{ name: 'loginview' }">我的订单</router-link>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">
@@ -77,6 +77,22 @@
             </div>
         </div>
     </nav>
+
+    <div id="viewport" class="container">
+        <!-- Sidebar -->
+        <div id="sidebar">
+            <header>
+                <a href="#">后台管理</a>
+            </header>
+            <ul class="nav">
+                <li><a class="text-center">添加列车</a></li>
+                <li><a class="text-center">停运列车</a></li>
+                <li><a class="text-center">修改列车信息</a></li>
+                <li><a class="text-center">统计售票情况</a></li>
+            </ul>
+        </div>
+    </div>
+
 </template>
   
 <script>
@@ -103,6 +119,70 @@ export default {
 </script>
   
 <style scoped>
+body {
+    overflow-x: hidden;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+}
+
+#viewport {
+    padding-left: 250px;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#sidebar {
+    z-index: 1000;
+    position: fixed;
+    left: 250px;
+    width: 250px;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    background: rgb(233, 239, 241);
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#sidebar header {
+    background-color: #3d4e5b;
+    font-size: 20px;
+    line-height: 62px;
+    text-align: center;
+}
+
+#sidebar header a {
+    color: #fff;
+    display: block;
+    text-decoration: none;
+}
+
+#sidebar .nav {}
+
+#sidebar .nav a {
+    background: none;
+    /* border-bottom: 1px solid #838f95; */
+    color: #000;
+    font-size: 16px;
+    padding: 12px 24px;
+    display: block;
+    width: 250px;
+    text-decoration: none;
+}
+
+#sidebar .nav a:hover {
+    background: none;
+    color: skyblue;
+}
+
+#sidebar .nav a i {
+    margin-right: 16px;
+}
+
 .wid {
     width: 80%;
     margin: auto;

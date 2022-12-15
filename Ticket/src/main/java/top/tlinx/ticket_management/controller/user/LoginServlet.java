@@ -6,6 +6,7 @@ import top.tlinx.ticket_management.mapper.UserMapper;
 import top.tlinx.ticket_management.pojo.User;
 import top.tlinx.ticket_management.utils.JwtUtil;
 import top.tlinx.ticket_management.utils.Mybatis;
+import top.tlinx.ticket_management.utils.SendResp;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,18 +30,18 @@ public class LoginServlet extends HttpServlet {
         user = Mapper.selectByname(username);
         if(user == null) {
             json.put("error_msg", "用户不存在");
-            resp.getWriter().println(json.toJSONString());
+            SendResp.sendResp(resp, json);
             return;
         }
 
         if(!BCrypt.checkpw(password, user.getPassword())) {
             json.put("error_msg", "密码错误");
-            resp.getWriter().println(json.toJSONString());
+            SendResp.sendResp(resp, json);
             return;
         }
 
         json.put("error_msg", "登录成功");
         json.put("token", JwtUtil.createJWT(Integer.toString(user.getUid())));
-        resp.getWriter().println(json.toJSONString());
+        SendResp.sendResp(resp, json);
     }
 }

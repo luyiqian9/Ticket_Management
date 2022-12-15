@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Purchase {
-    private Integer pid;
-    private Integer uid;
-    private Integer tid;
-    private Integer status;
+    private Integer pid;  // 主键
+    private Integer uid;  // 用户id
+    private Integer tid;  // 班车号
+    private Integer status;  // value = 1 购票  ||   value = 0  退票
 }

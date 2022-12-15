@@ -29,7 +29,7 @@ const routes = [
     component: BackView,
   },
   {
-    path: "/query",
+    path: "/query/",
     name: "queryview",
     component: QueryView,
   },

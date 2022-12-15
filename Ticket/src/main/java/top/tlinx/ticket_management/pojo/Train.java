@@ -13,8 +13,9 @@ public class Train {
     private Integer tid;  // 班车号
     private Integer load;   // 载客量
     private Integer remainTicks;  // 余票量
-    private String routine;  // 路线
-    private Date start;   // 发车时间
-    private Date end;     // 到站时间
+    private String startStation;  // 起点
+    private String endStation;  // 终点
+    private Date startTime;   // 发车时间
+    private Date endTime;     // 到站时间
     private String runtime;  // 行车时间
 }

@@ -7,6 +7,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import top.tlinx.ticket_management.mapper.UserMapper;
 import top.tlinx.ticket_management.pojo.User;
 import top.tlinx.ticket_management.utils.Mybatis;
+import top.tlinx.ticket_management.utils.SendResp;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,10 +18,6 @@ import java.io.IOException;
 
 @WebServlet(name = "RegisterServlet", value = "/user/register/")
 public class RegisterServlet extends HttpServlet {
-    private void sendResp(HttpServletResponse response, JSONObject json) throws IOException {
-        response.getWriter().println(json.toJSONString());
-    }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
@@ -30,12 +27,12 @@ public class RegisterServlet extends HttpServlet {
         username = username.trim();
         if(username == null || "".equals(username)) {
             json.put("error_msg", "用户名不能为空");
-            sendResp(resp, json);
+            SendResp.sendResp(resp, json);
             return;
         }
         if(pwd == null || "".equals(pwd)) {
             json.put("error_msg", "密码不能为空");
-            sendResp(resp, json);
+            SendResp.sendResp(resp, json);
             return;
         }
 
@@ -50,13 +47,13 @@ public class RegisterServlet extends HttpServlet {
         } catch(Exception e) {
             e.printStackTrace();
             json.put("error_msg", "用户名重复 注册失败");
-            sendResp(resp, json);
+            SendResp.sendResp(resp, json);
             return ;
         } finally {
             sqlSession.close();
         }
 
         json.put("error_msg", "注册成功");
-        sendResp(resp, json);
+        SendResp.sendResp(resp, json);
     }
 }

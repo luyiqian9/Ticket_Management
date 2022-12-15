@@ -3,6 +3,7 @@ package top.tlinx.ticket_management.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import org.apache.ibatis.session.SqlSession;
+import top.tlinx.ticket_management.exception.GlobalException;
 import top.tlinx.ticket_management.mapper.UserMapper;
 import top.tlinx.ticket_management.pojo.User;
 import top.tlinx.ticket_management.utils.JwtUtil;
@@ -70,20 +71,41 @@ public class JwtAuthenticationTokenFilter implements Filter {
                 throw new RuntimeException("用户未登录");
             }
             req.getSession().setAttribute("user_id",userid);
-            chain.doFilter(request, response);
-        }catch (Exception e){
+
+        }catch (RuntimeException e){
             e.printStackTrace();
-            if (canRequest(req.getRequestURI()))
-                doFilter(request,response,chain);
-            else{
+            if (!canRequest(req.getRequestURI())){
                 onErrorLogin(resp);
+                return;
             }
         }
+
+        try {
+            chain.doFilter(request, response);
+        }catch (Exception e){
+            if (e instanceof GlobalException){
+                onError(resp, (GlobalException) e);
+                e.printStackTrace();
+            }
+        }
+
     }
 
     @Override
     public void destroy() {
 
+    }
+
+    private void onError(HttpServletResponse resp,GlobalException e){
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("code", e.getCode());
+        map.put("error_msg", e.getMsg());
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            resp.getWriter().println(mapper.writeValueAsString(map));
+        } catch (IOException ie) {
+            ie.printStackTrace();
+        }
     }
 
     private void onErrorLogin(HttpServletResponse resp){
