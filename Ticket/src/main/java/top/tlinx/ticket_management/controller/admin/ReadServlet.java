@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "ReadServlet", value = "/read/")
+@WebServlet(name = "ReadServlet", value = "/read/")   // 统计售票信息Servlet
 public class ReadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

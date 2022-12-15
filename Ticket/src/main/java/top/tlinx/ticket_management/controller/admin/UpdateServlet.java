@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Formatter;
 
-@WebServlet(name = "UpdateServlet", value = "/update/")
+@WebServlet(name = "UpdateServlet", value = "/update/")   // 修改列车信息Servlet
 public class UpdateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

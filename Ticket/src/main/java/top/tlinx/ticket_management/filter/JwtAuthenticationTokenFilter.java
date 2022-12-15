@@ -44,6 +44,8 @@ public class JwtAuthenticationTokenFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
+        req.setCharacterEncoding("utf-8");
+
         resp.setContentType("application/json;charset=utf-8");
         String token = req.getHeader("Authorization");
         if (Objects.isNull(token) || !token.startsWith("Bearer ")) {

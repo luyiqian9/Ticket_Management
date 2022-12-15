@@ -27,9 +27,9 @@ public interface TrainMapper {
     Train selectByid(int tid);
     @Select("select * from train")
     List<Train> query();
-    @Select("select startStation, endStation from train where tid = #{tid}")
+    @Select("select * from train where tid = #{tid}")
     List<Train> queryById(int tid);
-    @Select("select startStation, endStation from train where endStation = #{endStation}")
+    @Select("select tid, startStation, endStation from train where endStation = #{endStation}")
     List<Train> queryByEd(String endStation);
 
 }

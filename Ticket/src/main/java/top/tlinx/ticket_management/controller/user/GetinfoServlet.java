@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "GetinfoServlet", value = "/user/getinfo/")
+@WebServlet(name = "GetinfoServlet", value = "/user/getinfo/")   // 获取用户信息Servlet
 public class GetinfoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

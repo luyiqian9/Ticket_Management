@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "LoginServlet", value = "/user/login/")
+@WebServlet(name = "LoginServlet", value = "/user/login/")  // 用户登录Servlet
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        if(!BCrypt.checkpw(password, user.getPassword())) {
+        if(!BCrypt.checkpw(password, user.getPassword())) {   // 密码解密匹配
             json.put("error_msg", "密码错误");
             SendResp.sendResp(resp, json);
             return;

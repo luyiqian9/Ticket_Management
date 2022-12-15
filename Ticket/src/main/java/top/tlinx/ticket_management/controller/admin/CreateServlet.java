@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Formatter;
 
-@WebServlet(name = "CreateServlet", value = "/create/")
+@WebServlet(name = "CreateServlet", value = "/create/")    // 添加列车Servlet
 public class CreateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,7 +38,7 @@ public class CreateServlet extends HttpServlet {
 
         JSONObject json = new JSONObject();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");   // 转化时间格式
         Date st = null, ed = null;
         try {
             st = sdf.parse(st_time);
@@ -50,7 +50,7 @@ public class CreateServlet extends HttpServlet {
             return ;
         }
 
-        long mills = ed.getTime() - st.getTime();
+        long mills = ed.getTime() - st.getTime();   // 计算列车行驶时间
         long hour = mills / (60 * 60 * 1000);
         long minute = (mills / 1000 / 60) % 60 ;
         String runtime = null;
@@ -60,7 +60,7 @@ public class CreateServlet extends HttpServlet {
 
         Train train = new Train(null, load, remain, start, end, st, ed, runtime);
 
-        SqlSession sqlSession = null;
+        SqlSession sqlSession = null;    // Mybatis 查询数据库
         try{
             sqlSession = Mybatis.getInstance().openSession();
             TrainMapper Mapper = sqlSession.getMapper(TrainMapper.class);

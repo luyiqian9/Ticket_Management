@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "RegisterServlet", value = "/user/register/")
+@WebServlet(name = "RegisterServlet", value = "/user/register/")    // 用户注册Servlet
 public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,7 +24,7 @@ public class RegisterServlet extends HttpServlet {
         String pwd = req.getParameter("password");
         JSONObject json = new JSONObject();    // 构造响应json
 
-        username = username.trim();
+        username = username.trim();   // 去字符串前后空格
         if(username == null || "".equals(username)) {
             json.put("error_msg", "用户名不能为空");
             SendResp.sendResp(resp, json);
