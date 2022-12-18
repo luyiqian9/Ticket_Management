@@ -18,17 +18,41 @@
                         <router-link :class="route_name == 'home' ? 'nav-link active' : 'nav-link'" aria-current="page"
                             :to="{ name: 'home' }">首页</router-link>
                     </li>
-                    <li class="nav-item pos">
-                        <a class="nav-link " href="#">购票</a>
-                    </li>
-                    <li class="nav-item pos">
+                    <!-- <li class="nav-item pos">
                         <a class="nav-link" href="#">退票</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item pos">
                         <router-link :class="route_name === 'queryview' ? 'nav-link active' : 'nav-link'"
                             :to="{ name: 'queryview' }">查询</router-link>
                     </li>
                     <li class="nav-item pos">
+                        <!-- Button trigger modal -->
+                        <a class="nav-link" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            购票
+                        </a>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">请输入班车号进行购票：
+                                        </h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input v-model="tid" type="text" class="form-control">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" @click="purchase()">确认购买</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item pos" v-if="$store.state.user.limit === 1">
                         <router-link :class="route_name == 'backstageview' ? 'nav-link active' : 'nav-link'"
                             :to="{ name: 'backstageview' }">管理后台</router-link>
                     </li>
@@ -78,41 +102,52 @@
         </div>
     </nav>
 
-    <div id="viewport" class="container">
-        <!-- Sidebar -->
-        <div id="sidebar">
-            <header>
-                <a href="#">后台管理</a>
-            </header>
-            <ul class="nav">
-                <li><a class="text-center">添加列车</a></li>
-                <li><a class="text-center">停运列车</a></li>
-                <li><a class="text-center">修改列车信息</a></li>
-                <li><a class="text-center">统计售票情况</a></li>
-            </ul>
-        </div>
-    </div>
-
 </template>
   
 <script>
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 import { useStore } from 'vuex';
+import { ref } from 'vue'
+import $ from 'jquery'
 
 export default {
     setup() {
         const route = useRoute();
         const store = useStore();
         let route_name = computed(() => route.name);
+        let tid = ref('');
 
         const logout = () => {
             store.dispatch("logout");
         }
 
+        const purchase = () => {
+            $.ajax({
+                url: "http://127.0.0.1:3000/buy/",
+                type: "post",
+                data: {
+                    tid: tid.value,
+                    status: "1",
+                },
+                headers: {
+                    Authorization: "Bearer " + store.state.user.token,
+                },
+                success(resp) {
+                    console.log(resp);
+                    alert(resp.error_msg);
+                },
+                error(resp) {
+                    console.log(resp);
+                }
+            })
+        }
+
         return {
             route_name,
             logout,
+            purchase,
+            tid,
         }
     }
 }

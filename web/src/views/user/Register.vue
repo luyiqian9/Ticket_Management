@@ -44,6 +44,7 @@
 <script>
 import { ref } from 'vue'
 import $ from 'jquery'
+import router from '../../router';
 
 export default {
     setup() {
@@ -60,6 +61,9 @@ export default {
                 success(resp) {
                     console.log(resp);
                     alert(resp.error_msg);
+                    if (resp.error_msg === "注册成功") {
+                        router.push({ name: 'loginview' });
+                    }
                 },
                 error(resp) {
                     console.log(resp);

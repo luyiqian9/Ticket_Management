@@ -36,9 +36,16 @@ public class CreateServlet extends HttpServlet {
         String ed_time = req.getParameter("ed_time");
         System.out.println("ed_time = " + ed_time);
 
+        StringBuilder sb = new StringBuilder(st_time);    // 修改前端时间值以此转化成Date类型
+        StringBuilder sb1 = new StringBuilder(ed_time);
+        sb.setCharAt(10, ' '); sb1.setCharAt(10, ' ');
+        st_time = sb.toString();
+        ed_time = sb1.toString();
+
         JSONObject json = new JSONObject();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");   // 转化时间格式
+        System.out.println(st_time);
+        SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm");   // 转化时间格式
         Date st = null, ed = null;
         try {
             st = sdf.parse(st_time);
@@ -49,8 +56,12 @@ public class CreateServlet extends HttpServlet {
             SendResp.sendResp(resp, json);
             return ;
         }
+        System.out.println(st);
 
         long mills = ed.getTime() - st.getTime();   // 计算列车行驶时间
+        if(mills < 0) {
+            throw new GlobalException(500, "到站时间不可先于发车时间");
+        }
         long hour = mills / (60 * 60 * 1000);
         long minute = (mills / 1000 / 60) % 60 ;
         String runtime = null;

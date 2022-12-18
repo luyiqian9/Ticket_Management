@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Date;
 
 @WebServlet(name = "BuyTicketServlet", value = "/buy/")    //    购 | 退车票Servlet
 public class BuyTicketServlet extends HttpServlet {
@@ -41,6 +42,9 @@ public class BuyTicketServlet extends HttpServlet {
 
             Train train = trainMapper.selectByid(tid);
             System.out.println(train);
+            if(train.getStartTime().getTime() < new Date().getTime() && status == 1) {
+                throw new GlobalException(500, "该列车已发出 不可购买");
+            }
             if(train.getRemainTicks() <= 0 && status == 1) {
                 throw new GlobalException(500, "该列车已无余票");
             }

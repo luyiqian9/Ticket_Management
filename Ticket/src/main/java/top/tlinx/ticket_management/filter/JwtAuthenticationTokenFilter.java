@@ -113,7 +113,7 @@ public class JwtAuthenticationTokenFilter implements Filter {
     private void onErrorLogin(HttpServletResponse resp){
             HashMap<String,String> map = new HashMap<>();
             map.put("code", "403");
-            map.put("error_message", "登陆失败");
+            map.put("error_msg", "登陆失败");
 
             try {
                 ObjectMapper mapper = new ObjectMapper();

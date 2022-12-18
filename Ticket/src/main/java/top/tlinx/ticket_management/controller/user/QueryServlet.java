@@ -54,6 +54,8 @@ public class QueryServlet extends HttpServlet {
                 map.put("tid", train.getTid());
                 map.put("st", train.getStartStation());
                 map.put("ed", train.getEndStation());
+                map.put("st_time", train.getStartTime());
+                map.put("remainTicks", train.getRemainTicks());
                 System.out.println(train.getStartStation() + ' ' + train.getEndStation());
                 System.out.println(map);
                 res.add(map);

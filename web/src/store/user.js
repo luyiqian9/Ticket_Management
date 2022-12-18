@@ -4,9 +4,9 @@ export default {
     state: {
         uid: "",
         username: "",
+        limit: -1,
         token: "",
         is_login: false,
-        limit: "",
     },
     getters: {
     },
@@ -14,6 +14,7 @@ export default {
         updateUser(state, user) {
             state.uid = user.uid;
             state.username = user.username;
+            state.limit = user.limit;
             state.is_login = user.is_login;
         },
         updateToken(state, token) {
@@ -22,6 +23,7 @@ export default {
         logout(state) {
             state.uid = "";
             state.username = "";
+            state.limit = -1;
             state.is_login = false;
             state.token = "";
         },
@@ -37,6 +39,7 @@ export default {
                 },
                 success(resp) {
                     if (resp.error_msg === "登录成功") {
+                        localStorage.setItem("jwt_token", resp.token);
                         context.commit("updateToken", resp.token);
                         data.success(resp);
                     }
@@ -50,6 +53,7 @@ export default {
             });
         },
         logout(context) {
+            localStorage.removeItem("jwt_token");
             context.commit("logout");
         },
         getinfo(context, data) {
@@ -64,6 +68,7 @@ export default {
                         context.commit("updateUser", {
                             uid: resp.user.uid,
                             username: resp.user.username,
+                            limit: resp.user.limit,
                             is_login: true,
                         });
                         data.success(resp);

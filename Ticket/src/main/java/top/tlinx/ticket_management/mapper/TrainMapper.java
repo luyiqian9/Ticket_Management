@@ -29,7 +29,7 @@ public interface TrainMapper {
     List<Train> query();
     @Select("select * from train where tid = #{tid}")
     List<Train> queryById(int tid);
-    @Select("select tid, startStation, endStation from train where endStation = #{endStation}")
+    @Select("select * from train where endStation = #{endStation}")
     List<Train> queryByEd(String endStation);
 
 }

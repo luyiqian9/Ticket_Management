@@ -35,11 +35,12 @@ public class ReadServlet extends HttpServlet {
             for(Train train : list){
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("tid",train.getTid());
+                map.put("st_time", train.getStartTime());
                 map.put("soldout", train.getLoad() - train.getRemainTicks());
-                map.put("remain_Ticks",train.getRemainTicks());
+                map.put("remainTicks",train.getRemainTicks());
                 res.add(map);
             }
-//            System.out.println(res);
+            System.out.println(res);
 
         } catch (Exception e) {
             e.printStackTrace();

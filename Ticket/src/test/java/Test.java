@@ -8,27 +8,36 @@ import java.util.Formatter;
 public class Test {
     public static void main(String[] args) {
         Date date = new Date();
-        System.out.println(date);
-        String s = "10:22:20";
-        String s1 = "22:59:22";
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+//        System.out.println(date);
+        String s = "2022-12-12T11:22:33";
+//        String s1 = "22:59:22";
+        System.out.println(s);
+        StringBuilder sb = new StringBuilder(s);
+        sb.setCharAt(10, ' ');
+        s = sb.toString();
+        System.out.println(s);
+        SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
         Date st = null, ed = null;
         try {
             st = sdf.parse(s);
-            ed = sdf.parse(s1);
+//            ed = sdf.parse(s1);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        long mills = ed.getTime() - st.getTime();
-        long hour = mills / (60 * 60 * 1000);
-        long minute = (mills / 1000 / 60) % 60 ;
-        String runtime = "  ";
-        System.out.println("hour = " + hour);
-        System.out.println("minutes = " + minute);
-        Formatter formatter = new Formatter();
-        runtime = String.valueOf(formatter.format("%d时%d分", hour, minute));
+        System.out.println("s = " + st);
 
-        System.out.println("runtime = " + runtime);
+//        long mills = ed.getTime() - st.getTime();
+//        long hour = mills / (60 * 60 * 1000);
+//        long minute = (mills / 1000 / 60) % 60 ;
+//        String runtime = "  ";
+//        System.out.println("hour = " + hour);
+//        System.out.println("minutes = " + minute);
+//        Formatter formatter = new Formatter();
+//        runtime = String.valueOf(formatter.format("%d时%d分", hour, minute));
+//
+//        System.out.println("runtime = " + runtime);
+
+
 //        String s = "123";
 //        String ps1 = BCrypt.hashpw(s, BCrypt.gensalt());
 //        String ps2 = BCrypt.hashpw(s, BCrypt.gensalt());

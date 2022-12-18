@@ -26,12 +26,27 @@
 <script>
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+import router from '../../router/index'
 
 export default {
     setup() {
         const store = useStore();
         let username = ref('');
         let password = ref('');
+
+        const jwt_token = localStorage.getItem("jwt_token");
+        if (jwt_token) {
+            store.commit("updateToken", jwt_token);
+            store.dispatch("getinfo", {
+                success(resp) {
+                    console.log(resp);
+                    router.push({ name: 'home' });
+                },
+                error(resp) {
+                    console.log(resp);
+                },
+            })
+        }
 
         const login = () => {
             store.dispatch("login", {
@@ -41,15 +56,16 @@ export default {
                     store.dispatch("getinfo", {
                         success(resp) {
                             console.log(resp);
-                            console.log(store.state.user.uid);
-                            console.log(store.state.user.username);
+                            // console.log(store.state.user.uid);
+                            // console.log(store.state.user.username);
+                            // console.log(store.state.user.limit);
+                            router.push({ name: 'home' });
                         },
                         error(resp) {
                             console.log(resp);
                         }
-                    })
+                    });
                     alert(resp.error_msg);
-                    // console.log(store.state.user.token);
                 },
                 error(resp) {
                     alert(resp.error_msg);
