@@ -11,7 +11,7 @@
                             <tr>
                                 <th>按班车号查询</th>
                                 <td>
-                                    <input v-model="tid" class="form-control float-start" placeholder="请输入列车号">
+                                    <input v-model="query.tid" class="form-control float-start" placeholder="请输入列车号">
                                 </td>
                                 <td>
                                     <a class="btn btn-primary" @click="queryById()">查询</a>
@@ -20,7 +20,8 @@
                             <tr>
                                 <th>按终点站查询</th>
                                 <td>
-                                    <input v-model="destination" class="form-control float-start" placeholder="请输入终点站">
+                                    <input v-model="query.destination" class="form-control float-start"
+                                        placeholder="请输入终点站">
                                 </td>
                                 <td>
                                     <a class="btn btn-primary" @click="queryByDest()">查询</a>
@@ -59,13 +60,17 @@
 <script>
 import $ from 'jquery'
 import { useStore } from 'vuex'
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 
 export default {
     setup() {
         const store = useStore();
-        let tid = ref('');
-        let destination = ref('');
+
+        const query = reactive({
+            tid: "",
+            destination: "",
+        });
+
         let records = ref([]);
 
         const queryById = () => {
@@ -76,10 +81,11 @@ export default {
                     Authorization: "Bearer " + store.state.user.token,
                 },
                 data: {
-                    flextid: tid.value,
+                    flextid: query.tid,
                     status: "tid",
                 },
                 success(resp) {
+                    query.tid = "";
                     // console.log(resp);
                     records.value = resp.route;
                     alert(resp.error_msg);
@@ -98,11 +104,11 @@ export default {
                     Authorization: "Bearer " + store.state.user.token,
                 },
                 data: {
-                    flextid: destination.value,
+                    flextid: query.destination,
                     status: "spot",
                 },
                 success(resp) {
-                    console.log(resp);
+                    query.destination = "";
                     records.value = resp.route;
                     alert(resp.error_msg);
                 },
@@ -115,34 +121,9 @@ export default {
         return {
             queryById,
             queryByDest,
-            tid,
-            destination,
+            query,
             records,
         }
-
-        // $.ajax({
-        //     url: "http://127.0.0.1:3000/update/",
-        //     type: "post",
-        //     headers: {
-        //         Authorization: "Bearer " + store.state.user.token,
-        //     },
-        //     data: {
-        //         tid: "15",
-        //         load: "99",
-        //         start_station: "衡阳",
-        //         end_station: "湘潭",
-        //         st_time: "14:20:18",
-        //         ed_time: "16:10:10",
-        //     },
-        //     success(resp) {
-        //         console.log(resp);
-        //         console.log("success");
-        //     },
-        //     error(resp) {
-        //         console.log(resp);
-        //         console.log("failed");
-        //     }
-        // })
 
     }
 }

@@ -7,6 +7,8 @@ import BackView from '../views/backstage/BackManagement'
 import QueryView from '../views/query/QueryView'
 import SoldoutView from '../views/backstage/SoldoutInfo'
 import CreateView from '../views/backstage/CreateTrain'
+import ModifyView from '../views/backstage/ModifyInfo'
+import MyTickView from '../views/user/MyTicketinfo'
 import store from '../store/index'
 
 
@@ -36,6 +38,14 @@ const routes = [
     },
   },
   {
+    path: "/myticks/",
+    name: "mytickview",
+    component: MyTickView,
+    meta: {
+      requestAuth: true,
+    }
+  },
+  {
     path: "/backstage/",
     name: "backstageview",
     component: BackView,
@@ -63,6 +73,14 @@ const routes = [
     path: "/create/",
     name: "createview",
     component: CreateView,
+    meta: {
+      requestAuth: true,
+    }
+  },
+  {
+    path: "/modify/",
+    name: "modifyview",
+    component: ModifyView,
     meta: {
       requestAuth: true,
     }

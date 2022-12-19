@@ -8,6 +8,7 @@ import top.tlinx.ticket_management.mapper.PurMapper;
 import top.tlinx.ticket_management.mapper.TrainMapper;
 import top.tlinx.ticket_management.pojo.Purchase;
 import top.tlinx.ticket_management.pojo.Train;
+import top.tlinx.ticket_management.utils.LegalParse;
 import top.tlinx.ticket_management.utils.Mybatis;
 import top.tlinx.ticket_management.utils.SendResp;
 
@@ -24,15 +25,14 @@ import java.util.Date;
 public class BuyTicketServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int tid = Integer.parseInt(req.getParameter("tid"));
+
+        int tid = LegalParse.isLegal(req.getParameter("tid"));
         int status = Integer.parseInt(req.getParameter("status"));
+
         HttpSession session = req.getSession();
         int user_id = Integer.parseInt((String)session.getAttribute("user_id"));
-        System.out.println("user_id = " + user_id);
         JSONObject json = new JSONObject();
         String error_msg = "";
-
-        Purchase purchase = new Purchase(null, user_id, tid, status);
 
         SqlSession sqlSession = null;
         try {
@@ -41,26 +41,34 @@ public class BuyTicketServlet extends HttpServlet {
             TrainMapper trainMapper = sqlSession.getMapper(TrainMapper.class);
 
             Train train = trainMapper.selectByid(tid);
-            System.out.println(train);
+            if(train == null) {
+                throw new GlobalException(500, "该列车不存在");
+            }
             if(train.getStartTime().getTime() < new Date().getTime() && status == 1) {
                 throw new GlobalException(500, "该列车已发出 不可购买");
             }
             if(train.getRemainTicks() <= 0 && status == 1) {
                 throw new GlobalException(500, "该列车已无余票");
             }
-            System.out.println("error");
-            purMapper.insert(purchase);  //   购/退车票
-            sqlSession.commit();
 
             int re_ticks = train.getRemainTicks();
             if(status == 1) {
                 re_ticks --;
                 error_msg = "购票成功";
+
+                Purchase purchase = new Purchase(null, user_id, tid, status);
+                purMapper.insert(purchase);  //   购/退车票
+                sqlSession.commit();
             }
             else {
                 re_ticks++;
                 error_msg = "退票成功";
+
+                int pid = LegalParse.isLegal(req.getParameter("pid"));
+                purMapper.update(pid);   // 退票则更新 status 字段为 0
+                sqlSession.commit();
             }
+
             Train nwtrain = new Train(train.getTid(), train.getLoad(), re_ticks, train.getStartStation(),
                         train.getEndStation(), train.getStartTime(), train.getEndTime(), train.getRuntime());
 

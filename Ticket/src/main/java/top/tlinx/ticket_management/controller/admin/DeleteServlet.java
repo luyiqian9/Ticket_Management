@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSessionException;
 import top.tlinx.ticket_management.exception.GlobalException;
 import top.tlinx.ticket_management.mapper.TrainMapper;
 import top.tlinx.ticket_management.pojo.Train;
+import top.tlinx.ticket_management.utils.LegalParse;
 import top.tlinx.ticket_management.utils.Mybatis;
 import top.tlinx.ticket_management.utils.SendResp;
 
@@ -20,7 +21,7 @@ import java.io.IOException;
 public class DeleteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int tid = Integer.parseInt(req.getParameter("tid"));
+        int tid = LegalParse.isLegal(req.getParameter("tid"));
         Train train = null;
         JSONObject json = new JSONObject();
         SqlSession sqlSession = null;

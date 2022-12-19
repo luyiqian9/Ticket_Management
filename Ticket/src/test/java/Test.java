@@ -7,6 +7,14 @@ import java.util.Formatter;
 
 public class Test {
     public static void main(String[] args) {
+        
+        String s = "zxc";
+        int n = Integer.parseInt(s);
+        System.out.println("n = " + n);
+
+
+        /**  时间类型转化
+        
         Date date = new Date();
 //        System.out.println(date);
         String s = "2022-12-12T11:22:33";
@@ -25,27 +33,34 @@ public class Test {
             e.printStackTrace();
         }
         System.out.println("s = " + st);
+         */
 
-//        long mills = ed.getTime() - st.getTime();
-//        long hour = mills / (60 * 60 * 1000);
-//        long minute = (mills / 1000 / 60) % 60 ;
-//        String runtime = "  ";
-//        System.out.println("hour = " + hour);
-//        System.out.println("minutes = " + minute);
-//        Formatter formatter = new Formatter();
-//        runtime = String.valueOf(formatter.format("%d时%d分", hour, minute));
-//
-//        System.out.println("runtime = " + runtime);
+        /** 计算获取运行时间
+        
+        long mills = ed.getTime() - st.getTime();
+        long hour = mills / (60 * 60 * 1000);
+        long minute = (mills / 1000 / 60) % 60 ;
+        String runtime = "  ";
+        System.out.println("hour = " + hour);
+        System.out.println("minutes = " + minute);
+        Formatter formatter = new Formatter();
+        runtime = String.valueOf(formatter.format("%d时%d分", hour, minute));
+
+        System.out.println("runtime = " + runtime);
+         */
 
 
-//        String s = "123";
-//        String ps1 = BCrypt.hashpw(s, BCrypt.gensalt());
-//        String ps2 = BCrypt.hashpw(s, BCrypt.gensalt());
-//        System.out.println("ps1 = " + ps1);
-//        System.out.println("ps2 = " + ps2);
-//        if(BCrypt.checkpw("1234","$2a$10$mKeR/3sCP2D4wGPWAs9MBuEZlrXZah6Vj8.nCzuyQ5PbZ0sOA7j1m"))
-//            System.out.println("yes");
-//        else
-//            System.out.println("no");
+        /** 密码加密
+         
+        String s = "123";
+        String ps1 = BCrypt.hashpw(s, BCrypt.gensalt());
+        String ps2 = BCrypt.hashpw(s, BCrypt.gensalt());
+        System.out.println("ps1 = " + ps1);
+        System.out.println("ps2 = " + ps2);
+        if(BCrypt.checkpw("1234","$2a$10$mKeR/3sCP2D4wGPWAs9MBuEZlrXZah6Vj8.nCzuyQ5PbZ0sOA7j1m"))
+            System.out.println("yes");
+        else
+            System.out.println("no");
+         */
     }
 }

@@ -2,6 +2,7 @@
     <div class="row margin-top">
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
+            <h2 class="text-center">售票情况</h2>
             <table class="table table-striped table-hover" style="text-align: center;">
                 <thead>
                     <tr>

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSessionException;
 import top.tlinx.ticket_management.exception.GlobalException;
 import top.tlinx.ticket_management.mapper.TrainMapper;
 import top.tlinx.ticket_management.pojo.Train;
+import top.tlinx.ticket_management.utils.LegalParse;
 import top.tlinx.ticket_management.utils.Mybatis;
 import top.tlinx.ticket_management.utils.SendResp;
 
@@ -36,7 +37,7 @@ public class QueryServlet extends HttpServlet {
             sqlSession = Mybatis.getInstance().openSession();
             TrainMapper Mapper = sqlSession.getMapper(TrainMapper.class);
             if("tid".equals(query)) {
-                int tid = Integer.parseInt(flextid);
+                int tid = LegalParse.isLegal(flextid);
                 list = Mapper.queryById(tid);
                 if(list.isEmpty()) {
                     throw new GlobalException(500, "该列车不存在");

@@ -43,7 +43,7 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <input v-model="tid" type="text" class="form-control">
+                                        <input v-model="buy.tid" type="text" class="form-control">
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-primary" @click="purchase()">确认购买</button>
@@ -68,7 +68,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
-                                <router-link class="dropdown-item" :to="{ name: 'loginview' }">我的订单</router-link>
+                                <router-link class="dropdown-item" :to="{ name: 'mytickview' }">我的订单</router-link>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">
@@ -108,7 +108,7 @@
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 import { useStore } from 'vuex';
-import { ref } from 'vue'
+import { reactive } from 'vue'
 import $ from 'jquery'
 
 export default {
@@ -116,7 +116,9 @@ export default {
         const route = useRoute();
         const store = useStore();
         let route_name = computed(() => route.name);
-        let tid = ref('');
+        let buy = reactive({
+            tid: "",
+        });
 
         const logout = () => {
             store.dispatch("logout");
@@ -127,14 +129,16 @@ export default {
                 url: "http://127.0.0.1:3000/buy/",
                 type: "post",
                 data: {
-                    tid: tid.value,
+                    tid: buy.tid,
                     status: "1",
                 },
                 headers: {
                     Authorization: "Bearer " + store.state.user.token,
                 },
                 success(resp) {
+                    buy.tid = "";
                     console.log(resp);
+                    // IndexView.pull_page();
                     alert(resp.error_msg);
                 },
                 error(resp) {
@@ -147,7 +151,7 @@ export default {
             route_name,
             logout,
             purchase,
-            tid,
+            buy,
         }
     }
 }

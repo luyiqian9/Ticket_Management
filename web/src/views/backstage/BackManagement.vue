@@ -17,7 +17,7 @@
                             <tr>
                                 <th>修改列车信息</th>
                                 <td>
-                                    <a class="btn btn-primary">修改</a>
+                                    <router-link class="btn btn-primary" :to="{ name: 'modifyview' }">修改</router-link>
                                 </td>
                             </tr>
                             <tr>
@@ -44,7 +44,7 @@
                                                         aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <input v-model="tid" type="text" class="form-control">
+                                                    <input v-model="del.tid" type="text" class="form-control">
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-danger"
@@ -68,12 +68,15 @@
 <script>
 import $ from 'jquery'
 import { useStore } from 'vuex'
-import { ref } from 'vue'
+import { reactive } from 'vue'
+import { Modal } from 'bootstrap/dist/js/bootstrap'
 
 export default {
     setup() {
         const store = useStore();
-        let tid = ref('');
+        let del = reactive({
+            tid: "",
+        });
 
         const deletev = () => {
             $.ajax({
@@ -83,10 +86,12 @@ export default {
                     Authorization: "Bearer " + store.state.user.token,
                 },
                 data: {
-                    tid: tid.value,
+                    tid: del.tid,
                 },
                 success(resp) {
                     console.log(resp);
+                    del.tid = "";
+                    Modal.getInstance("#staticBack").hide();
                     alert(resp.error_msg);
                 },
                 error(resp) {
@@ -97,7 +102,7 @@ export default {
 
         return {
             deletev,
-            tid,
+            del,
         }
     }
 }
