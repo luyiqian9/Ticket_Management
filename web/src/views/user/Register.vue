@@ -10,31 +10,31 @@
                 <input v-model="password" type="password" name="" required="true">
                 <label>Password</label>
             </div>
-            <!-- <div class="row">
+            <div class="row">
                 <div class="col-sm-8">
                     <div class="user-box">
-                        <input type="text" name="" required="true">
+                        <input v-model="sendto" type="text" name="" required="true">
                         <label>Email</label>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="user-box">
-                        <button class="btn btn-outline-secondary" type="buttom" id="">get code</button>
+                        <button id="code" class="btn btn-outline-secondary" type="button" @click="getcode()">get
+                            code</button>
                     </div>
                 </div>
             </div>
 
             <div class="user-box">
-                <input type="text" name="" required="true">
+                <input v-model="accesscode" type="text" name="" required="true">
                 <label>Access code</label>
-            </div> -->
+            </div>
 
-            <a href="#" @click="register">
+            <a href="#" @click="register()">
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
-                <!-- <button @submit.prevent="login">Submit</button> -->
                 Submit
             </a>
         </form>
@@ -50,13 +50,22 @@ export default {
     setup() {
         let username = ref('');
         let password = ref('');
+        let sendto = ref('');
+        let accesscode = ref('');
+
         const register = () => {
             $.ajax({
+                xhrFields: {
+                    withCredentials: true,
+                },
+                crossDomain: true,
                 url: "http://127.0.0.1:3000/user/register/",
                 type: "post",
                 data: {
                     username: username.value,
                     password: password.value,
+                    email: sendto.value,
+                    accesscode: accesscode.value,
                 },
                 success(resp) {
                     console.log(resp);
@@ -72,10 +81,56 @@ export default {
             })
         }
 
+        function countdown(val, time, cnt) {
+            if (time === 0) {
+                val.disabled = false;
+                val.innerHTML = "get code";
+                clearInterval(cnt);
+            } else {
+                val.innerHTML = 'resend code(' + time + ')';
+                time--;
+            }
+            return time;
+        }
+
+
+        const getcode = () => {
+            let time = 60;
+            let object = document.getElementById('code');
+            object.disabled = true;
+            countdown(object, time);
+            let cnt = setInterval(function () {
+                time = countdown(object, time, cnt);
+            }, 1000);
+
+
+            $.ajax({
+                xhrFields: {
+                    withCredentials: true
+                },
+                crossDomain: true,
+                url: "http://127.0.0.1:3000/getcode/",
+                type: "post",
+                data: {
+                    sendto: sendto.value,
+                },
+                success(resp) {
+                    console.log(resp);
+                },
+                error(resp) {
+                    console.log(resp);
+                }
+
+            })
+        }
+
         return {
             username,
             password,
             register,
+            getcode,
+            sendto,
+            accesscode,
         }
     }
 }

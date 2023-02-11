@@ -29,6 +29,7 @@ public class CorsConfig implements Filter {
         response.setHeader("Access-Control-Allow-Credentials", "true");
 
         chain.doFilter(request, response);
+//        System.out.println("error2");
     }
 
     @Override

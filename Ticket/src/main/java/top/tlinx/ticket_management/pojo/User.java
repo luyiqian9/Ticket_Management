@@ -12,5 +12,6 @@ public class User {
     private String username;   // 用户名
     private String password;   // 用户密码
     private Integer limit;    // 用户权限
+    private String email;
 
 }

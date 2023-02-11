@@ -30,7 +30,8 @@
                         </tbody>
                     </table>
 
-                    <table class="table table-striped table-hover margin-top" style="text-align: center;">
+                    <table v-if="query.flag" class="table table-striped table-hover margin-top"
+                        style="text-align: center;">
                         <thead>
                             <tr>
                                 <th>班车号</th>
@@ -69,6 +70,7 @@ export default {
         const query = reactive({
             tid: "",
             destination: "",
+            flag: false,
         });
 
         let records = ref([]);
@@ -86,7 +88,8 @@ export default {
                 },
                 success(resp) {
                     query.tid = "";
-                    // console.log(resp);
+                    if (resp.error_msg === "查询成功")
+                        query.flag = true;
                     records.value = resp.route;
                     alert(resp.error_msg);
                 },
@@ -109,6 +112,8 @@ export default {
                 },
                 success(resp) {
                     query.destination = "";
+                    if (resp.error_msg === "查询成功")
+                        query.flag = true;
                     records.value = resp.route;
                     alert(resp.error_msg);
                 },

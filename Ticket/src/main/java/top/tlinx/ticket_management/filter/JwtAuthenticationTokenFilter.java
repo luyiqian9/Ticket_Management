@@ -25,6 +25,7 @@ public class JwtAuthenticationTokenFilter implements Filter {
     private final String[] noAuthMapping = {
                 "/user/register/",
                 "/user/login/",
+                "/getcode/",
     };
     public void init(FilterConfig config) {
     }
@@ -49,8 +50,18 @@ public class JwtAuthenticationTokenFilter implements Filter {
         resp.setContentType("application/json;charset=utf-8");
         String token = req.getHeader("Authorization");
         if (Objects.isNull(token) || !token.startsWith("Bearer ")) {
-            if (canRequest(req.getRequestURI()))
-                chain.doFilter(request, response);
+            if (canRequest(req.getRequestURI())) {
+                try {
+                    chain.doFilter(request, response);
+                }catch (Exception e){
+                    if (e instanceof GlobalException){
+                        onError(resp, (GlobalException) e);
+                        e.printStackTrace();
+                    }
+                }
+//                chain.doFilter(request, response);
+//                System.out.println("error1");
+            }
             else
                 onErrorLogin(resp);
             return;
